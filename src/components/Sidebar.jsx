@@ -2,7 +2,7 @@
  * Sidebar.jsx — menú lateral fijo, escala fluida pensada para 15"/23"+ en presentación.
  */
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useModo } from '../context/ModoContext';
+import { useModo } from '../hooks/useModo';
 import { obtenerInfoContrato } from '../services/web3';
 
 const PASOS_MENU = [
@@ -46,23 +46,17 @@ export default function Sidebar({ pasoActual = -1, onNavStep }) {
 
       {/* ── Logo ── */}
       <div className="px-5 pt-5 pb-4 shrink-0">
-        <div
-          className="flex items-center gap-3 cursor-pointer"
-          onClick={() => navigate('/teoria/web3')}
-        >
+        <button type="button" className="flex w-full cursor-pointer items-center gap-3 text-left" onClick={() => navigate('/teoria/web3')}>
           <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-indigo-400 to-fuchsia-500 flex items-center justify-center text-white text-lg font-black shadow-lg shadow-indigo-950/40">
             ⛓
           </div>
           <div>
-            <div
-              className="font-black text-white leading-tight fs-meta"
-              style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
-            >
+            <div className="fs-meta font-black leading-tight text-white">
               Demo Web3
             </div>
             <div className="text-slate-400 fs-eyebrow">Aprendé, probá, entendé</div>
           </div>
-        </div>
+        </button>
       </div>
 
       {/* ── Switch caminos ── */}

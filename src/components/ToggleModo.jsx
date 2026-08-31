@@ -1,7 +1,7 @@
 /**
  * ToggleModo.jsx — switch Principiante / Técnico
  */
-import { useModo } from '../context/ModoContext';
+import { useModo } from '../hooks/useModo';
 
 export default function ToggleModo() {
   const { modo, toggleModo } = useModo();

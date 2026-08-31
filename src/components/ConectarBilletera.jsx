@@ -4,7 +4,7 @@
 import Termino from './Termino';
 import GraficoConectar from './graficos/GraficoConectar';
 import GraficoWallet from './graficos/GraficoWallet';
-import { useModo } from '../context/ModoContext';
+import { useModo } from '../hooks/useModo';
 
 export default function ConectarBilletera({ cuenta, chainId, balance, onConectar, cargando, error }) {
   const { esTecnico } = useModo();

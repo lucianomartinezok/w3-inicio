@@ -6,7 +6,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { diccionario, CATEGORIAS } from '../data/diccionario';
 import { getGrafico } from '../components/graficos';
-import Sidebar from '../components/Sidebar';
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
 
 const CATEGORIA_ICONS = {
   fundamentos: '⛓',
@@ -18,10 +18,12 @@ const CATEGORIA_ICONS = {
 };
 
 export default function PaginaDiccionario() {
+  useDocumentTitle('Glosario Web3');
   const [busqueda, setBusqueda] = useState('');
   const [catActiva, setCatActiva] = useState('Todos');
   const [expandido, setExpandido] = useState(() => window.location.hash.replace('#', '') || null);
   const entryRefs = useRef({});
+  const searchRef = useRef(null);
   const navigate = useNavigate();
 
   // Deep link por hash
@@ -44,12 +46,9 @@ export default function PaginaDiccionario() {
   const categorias = ['Todos', ...Object.keys(CATEGORIAS)];
 
   return (
-    <>
-      {/* Sidebar sin pasoActual (estamos en diccionario) */}
-      <Sidebar pasoActual={-1} />
-
-      <div className="flex-1 min-w-0 overflow-y-auto">
-        <div className="px-8 py-8 lg:px-12 xl:px-16 lg:py-10 max-w-5xl mx-auto">
+    <div className="min-h-dvh w-full bg-transparent">
+      <div className="min-w-0">
+        <div className="mx-auto max-w-5xl px-6 py-6 lg:px-10 lg:py-7 xl:px-12">
 
           {/* Header */}
           <div className="mb-7 text-center">
@@ -59,7 +58,7 @@ export default function PaginaDiccionario() {
             >
               ← Volver a teoría
             </button>
-            <h1 className="fs-h1 font-black text-slate-900" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+            <h1 className="fs-h1 font-black text-slate-900">
               📖 Diccionario Web3
             </h1>
             <p className="text-slate-600 fs-lead mt-2">
@@ -71,7 +70,9 @@ export default function PaginaDiccionario() {
           <div className="relative mb-5">
             <span className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 fs-meta">🔍</span>
             <input
+              ref={searchRef}
               type="text"
+              aria-label="Buscar en el glosario"
               placeholder="Buscá un término... ej: gas, wallet, hash"
               value={busqueda}
               onChange={(e) => { setBusqueda(e.target.value); setCatActiva('Todos'); }}
@@ -79,7 +80,8 @@ export default function PaginaDiccionario() {
             />
             {busqueda && (
               <button
-                onClick={() => setBusqueda('')}
+                onClick={() => { setBusqueda(''); searchRef.current?.focus(); }}
+                aria-label="Limpiar búsqueda"
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 w-8 h-8 flex items-center justify-center rounded-lg hover:bg-slate-100 text-xl"
               >
                 ×
@@ -221,6 +223,6 @@ export default function PaginaDiccionario() {
           <div className="h-8" />
         </div>
       </div>
-    </>
+    </div>
   );
 }

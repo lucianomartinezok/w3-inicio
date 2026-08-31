@@ -5,7 +5,7 @@
  */
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import Sidebar from '../components/Sidebar';
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
 import Termino from '../components/Termino';
 import GraficoBlockchain from '../components/graficos/GraficoBlockchain';
 import GraficoWallet from '../components/graficos/GraficoWallet';
@@ -107,17 +107,17 @@ export default function PaginaTeoria() {
   const { tema = 'web3' } = useParams();
   const navigate = useNavigate();
   const temaActivo = TEMAS_VALIDOS.includes(tema) ? tema : 'web3';
+  const titulos = { web3: 'Qué es Web3', conceptos: 'Conceptos base', v1: 'Blockchain real' };
+  useDocumentTitle(titulos[temaActivo]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [temaActivo]);
 
   return (
-    <>
-      <Sidebar pasoActual={-1} />
-
-      <main className="flex-1 min-w-0 min-h-screen overflow-y-auto">
-        <div className="min-h-screen w-full px-6 py-6 lg:px-10 lg:py-8 xl:px-14 flex">
+    <div className="min-h-dvh w-full bg-transparent">
+      <main className="min-h-dvh min-w-0 overflow-y-auto md:h-dvh md:overflow-hidden">
+        <div className="flex min-h-full w-full px-5 py-5 md:h-full lg:px-8 lg:py-6 xl:px-10">
           {temaActivo === 'web3' && (
             <TeoriaWeb3
               onSiguiente={() => navigate('/teoria/conceptos')}
@@ -128,7 +128,7 @@ export default function PaginaTeoria() {
           {temaActivo === 'v1' && <TeoriaV1 />}
         </div>
       </main>
-    </>
+    </div>
   );
 }
 
@@ -223,40 +223,31 @@ function TeoriaConceptos() {
   const Grafico = concepto.Grafico;
 
   return (
-    <section className="flex-1 flex flex-col w-full max-w-7xl mx-auto">
-      <div className="flex-1 min-h-[32rem] grid grid-cols-1 md:grid-cols-[minmax(0,240px)_minmax(0,1fr)] xl:grid-cols-[minmax(0,290px)_minmax(0,1fr)] gap-5 xl:gap-7">
+    <section className="mx-auto flex h-full min-h-0 w-full max-w-7xl flex-1 flex-col">
+      <div className="grid h-full min-h-0 grid-cols-1 gap-5 md:grid-cols-[minmax(0,240px)_minmax(0,1fr)] xl:grid-cols-[minmax(0,290px)_minmax(0,1fr)] xl:gap-7">
 
         {/* Sidebar interno */}
-        <nav className="rounded-3xl border border-slate-200 bg-white p-4 xl:p-5 shadow-sm overflow-y-auto">
-          <p className="fs-eyebrow font-bold uppercase tracking-wider text-slate-400 px-2 mb-3">
-            Elegí un concepto
-          </p>
-          <div className="space-y-2">
+        <nav className="rounded-3xl border border-slate-200 bg-white p-4 xl:p-5 shadow-sm min-h-0">
+          <div className="grid h-full grid-rows-4 gap-3">
             {CONCEPTOS.map((item) => {
               const seleccionado = item.id === activo;
               return (
                 <button
                   key={item.id}
                   onClick={() => setActivo(item.id)}
-                  className={`w-full rounded-2xl border p-3 xl:p-4 text-left transition-all ${
+                  className={`flex h-full w-full flex-col items-start justify-center rounded-2xl border p-4 text-left transition-all xl:p-5 ${
                     seleccionado
                       ? 'bg-slate-950 text-white border-slate-950 shadow-sm'
                       : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-white hover:border-slate-300'
                   }`}
                 >
-                  <div className="flex items-center gap-3">
-                    <span className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-lg ${
-                      seleccionado ? 'bg-white/10' : 'bg-white'
-                    }`}>
-                      {item.icono}
-                    </span>
-                    <div className="min-w-0">
-                      <p className="fs-meta font-black truncate">{item.titulo}</p>
-                      <p className={`fs-eyebrow leading-snug truncate ${seleccionado ? 'text-slate-300' : 'text-slate-500'}`}>
-                        {item.resumen}
-                      </p>
-                    </div>
-                  </div>
+                  <span className={`flex h-10 w-10 items-center justify-center rounded-xl text-lg ${seleccionado ? 'bg-white/10' : 'bg-white'}`}>
+                    {item.icono}
+                  </span>
+                  <p className="mt-2 fs-meta font-black leading-tight">{item.titulo}</p>
+                  <p className={`mt-1 fs-eyebrow leading-snug ${seleccionado ? 'text-slate-300' : 'text-slate-500'}`}>
+                    {item.resumen}
+                  </p>
                 </button>
               );
             })}
@@ -264,7 +255,7 @@ function TeoriaConceptos() {
         </nav>
 
         {/* Detalle del concepto */}
-        <article className="rounded-[2rem] border border-slate-200 bg-white p-7 xl:p-10 shadow-sm overflow-hidden flex flex-col min-h-0">
+        <article className="flex h-full min-h-0 flex-col overflow-hidden rounded-[2rem] border border-slate-200 bg-white p-7 shadow-sm xl:p-10">
           <div className={`inline-flex self-start items-center gap-2 rounded-full border px-4 py-1.5 fs-eyebrow font-bold ${CONCEPT_COLOR[concepto.color]}`}>
             <span className="text-base leading-none">{concepto.icono}</span> {concepto.titulo}
           </div>
@@ -279,10 +270,8 @@ function TeoriaConceptos() {
 
             <div className={`rounded-3xl border min-h-0 flex items-center justify-center overflow-hidden ${CONCEPT_COLOR[concepto.color]}`}>
               {Grafico ? (
-                <div className="w-full h-full flex items-center justify-center p-3">
-                  <div className="origin-center" style={{ transform: 'scale(clamp(0.55, 0.6vw + 0.4, 0.95))' }}>
-                    <Grafico />
-                  </div>
+                <div className="w-full h-full flex items-center justify-center p-4">
+                  <Grafico />
                 </div>
               ) : (
                 <div className="p-8 text-center fs-body text-slate-700 leading-relaxed">

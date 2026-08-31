@@ -11,7 +11,7 @@
  */
 
 import { useState, useCallback } from 'react';
-import { useNarrador } from '../context/NarradorContext';
+import { useNarrador } from './useNarrador';
 import {
   conectarWallet as svcConectar,
   leerMensaje as svcLeer,
@@ -35,6 +35,20 @@ export function useContrato() {
   const [pasoActual, setPasoActual] = useState(-1); // índice en PASOS
 
   const infoContrato = obtenerInfoContrato();
+
+  // ── LEER MENSAJE ──────────────────────────────────────────────
+  const _leerMensaje = useCallback(async () => {
+    log({ tipo: 'info', humano: '📖 Leyendo el mensaje actual del contrato... (gratuito, sin firma)', tecnico: 'contract.mensaje() — view function' });
+
+    const msg = await svcLeer((progreso) => {
+      if (progreso.paso === 'leer_ok') {
+        log({ tipo: 'exito', humano: progreso.msg });
+      }
+    });
+
+    setMensajeActual(msg);
+    return msg;
+  }, [log]);
 
   // ── CONECTAR ──────────────────────────────────────────────────
   const conectar = useCallback(async () => {
@@ -69,28 +83,16 @@ export function useContrato() {
       // Leer el mensaje actual automáticamente al conectar
       await _leerMensaje();
       setPasoActual(2); // stepper → "Lectura"
+      return resultado;
 
     } catch (e) {
       setError(e.message);
       log({ tipo: 'error', humano: `❌ Error al conectar: ${e.message}`, tecnico: e.stack });
+      return null;
     } finally {
       setCargando(false);
     }
-  }, [log]);
-
-  // ── LEER MENSAJE ──────────────────────────────────────────────
-  const _leerMensaje = useCallback(async () => {
-    log({ tipo: 'info', humano: '📖 Leyendo el mensaje actual del contrato... (gratuito, sin firma)', tecnico: 'contract.mensaje() — view function' });
-
-    const msg = await svcLeer((progreso) => {
-      if (progreso.paso === 'leer_ok') {
-        log({ tipo: 'exito', humano: progreso.msg });
-      }
-    });
-
-    setMensajeActual(msg);
-    return msg;
-  }, [log]);
+  }, [_leerMensaje, log]);
 
   const leerMensaje = useCallback(async () => {
     setError(null);
@@ -151,11 +153,13 @@ export function useContrato() {
         humano: `🎉 ¡Listo! Tu mensaje "${texto}" quedó grabado para siempre en la blockchain.`,
         tecnico: `hash: ${tx.hash} | bloque: ${tx.numeroBloque} | gasUsado: ${tx.gasUsado}`,
       });
+      return tx;
 
     } catch (e) {
       setError(e.message);
       log({ tipo: 'error', humano: `❌ ${e.message}`, tecnico: e.stack });
       setPasoActual(cuenta ? 2 : -1);
+      return null;
     } finally {
       setCargando(false);
     }

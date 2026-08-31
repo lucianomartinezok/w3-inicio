@@ -1,20 +1,21 @@
 /**
  * Termino.jsx — Término del glosario con popover al click.
  */
-import { useState, useRef, useEffect } from 'react';
+import { createElement, useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { diccionarioPorId } from '../data/diccionario';
-import { getGrafico } from './graficos';
+import { GRAFICOS } from './graficos';
+
+function GraficoMini({ id }) {
+  const componente = GRAFICOS[id];
+  return componente ? createElement(componente, { mini: true }) : null;
+}
 
 export default function Termino({ id, children }) {
   const [abierto, setAbierto] = useState(false);
   const ref = useRef(null);
   const navigate = useNavigate();
   const dato = diccionarioPorId[id];
-
-  if (!dato) return <span>{children}</span>;
-
-  const Grafico = dato.graficoId ? getGrafico(dato.graficoId) : null;
 
   useEffect(() => {
     if (!abierto) return;
@@ -25,15 +26,18 @@ export default function Termino({ id, children }) {
     return () => document.removeEventListener('mousedown', handler);
   }, [abierto]);
 
+  if (!dato) return <span>{children}</span>;
+
   return (
     <span className="relative inline-block" ref={ref}>
-      <span
-        className="termino"
+      <button
+        type="button"
+        className="termino appearance-none bg-transparent p-0 text-left"
         onClick={(e) => { e.stopPropagation(); setAbierto(!abierto); }}
-        title={dato.def}
+        aria-expanded={abierto}
       >
         {children}
-      </span>
+      </button>
 
       {abierto && (
         <div
@@ -44,7 +48,7 @@ export default function Termino({ id, children }) {
           <div className="bg-indigo-50 rounded-t-2xl px-4 py-3 border-b border-indigo-100">
             <div className="flex items-center justify-between">
               <span className="font-black text-indigo-700 text-sm capitalize">{dato.nombre}</span>
-              <button onClick={() => setAbierto(false)} className="text-slate-400 hover:text-slate-600 text-lg leading-none">×</button>
+              <button type="button" onClick={() => setAbierto(false)} aria-label={`Cerrar definición de ${dato.nombre}`} className="text-lg leading-none text-slate-400 hover:text-slate-600">×</button>
             </div>
             {dato.categoria && (
               <span className="text-xs text-indigo-400 font-medium">{dato.categoria}</span>
@@ -64,9 +68,9 @@ export default function Termino({ id, children }) {
             )}
 
             {/* Gráfico mini */}
-            {Grafico && (
+            {dato.graficoId && (
               <div className="bg-slate-50 rounded-xl p-2 border border-slate-100">
-                <Grafico mini />
+                <GraficoMini id={dato.graficoId} />
               </div>
             )}
 

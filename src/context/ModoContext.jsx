@@ -8,19 +8,28 @@
  * Se persiste en localStorage para que no se pierda al recargar.
  */
 
-import { createContext, useContext, useState } from 'react';
-
-const ModoContext = createContext(null);
+import { useState } from 'react';
+import { ModoContext } from './modoContextBase';
 
 export function ModoProvider({ children }) {
   const [modo, setModo] = useState(
-    () => localStorage.getItem('web3demo_modo') || 'principiante'
+    () => {
+      try {
+        return localStorage.getItem('web3demo_modo') || 'principiante';
+      } catch {
+        return 'principiante';
+      }
+    }
   );
 
   const toggleModo = () => {
     setModo((prev) => {
       const next = prev === 'principiante' ? 'tecnico' : 'principiante';
-      localStorage.setItem('web3demo_modo', next);
+      try {
+        localStorage.setItem('web3demo_modo', next);
+      } catch {
+        // El modo sigue activo durante la sesión aunque no pueda persistirse.
+      }
       return next;
     });
   };
@@ -32,10 +41,4 @@ export function ModoProvider({ children }) {
       {children}
     </ModoContext.Provider>
   );
-}
-
-export function useModo() {
-  const ctx = useContext(ModoContext);
-  if (!ctx) throw new Error('useModo debe usarse dentro de ModoProvider');
-  return ctx;
 }

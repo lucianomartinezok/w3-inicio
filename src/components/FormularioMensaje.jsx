@@ -2,9 +2,8 @@
  * FormularioMensaje.jsx — Rediseño limpio
  */
 import { useState } from 'react';
-import Termino from './Termino';
 import GraficoLeerVsEscribir from './graficos/GraficoLeerVsEscribir';
-import { useModo } from '../context/ModoContext';
+import { useModo } from '../hooks/useModo';
 
 export default function FormularioMensaje({ cuenta, onEnviar, cargando, error }) {
   const [texto, setTexto] = useState('');

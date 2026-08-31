@@ -158,7 +158,13 @@ export async function conectarWallet(onProgreso) {
 export async function leerMensaje(onProgreso) {
   onProgreso?.({ paso: 'leer', msg: 'Consultando el contrato... (operación gratuita, sin firma)' });
   await esperar(DELAY.leer);
-  const msg = localStorage.getItem('web3demo_mensaje') || '';
+  const msg = (() => {
+    try {
+      return localStorage.getItem('web3demo_mensaje') || '';
+    } catch {
+      return '';
+    }
+  })();
   onProgreso?.({ paso: 'leer_ok', msg: `Mensaje leído desde el contrato: "${msg || '(vacío)'}"` });
   return msg;
 }
@@ -206,7 +212,11 @@ export async function enviarMensaje(texto, onProgreso) {
 
         _bloqueActual += 1;
         const gasUsado = (42000 + Math.floor(Math.random() * 3000)).toString();
-        localStorage.setItem('web3demo_mensaje', texto);
+        try {
+          localStorage.setItem('web3demo_mensaje', texto);
+        } catch {
+          // La simulación puede continuar sin persistencia entre recargas.
+        }
 
         onProgreso?.({
           paso: 'confirmada',

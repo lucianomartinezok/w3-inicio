@@ -21,6 +21,7 @@
  * ofrece cambiar de red si es necesario.
  */
 export async function conectarWallet(onProgreso) {
+  void onProgreso;
   // TODO v1-2: Implementar con ethers
   // onProgreso?.({ paso: 'detectar', msg: 'Buscando MetaMask...' });
   // if (!window.ethereum) throw new Error('MetaMask no encontrado. Instalalo en metamask.io');
@@ -51,6 +52,7 @@ export async function conectarWallet(onProgreso) {
  * Llama a contract.mensaje() — lectura gratuita, sin firma.
  */
 export async function leerMensaje(onProgreso) {
+  void onProgreso;
   // TODO v1-3: Implementar con ethers
   // const provider = new ethers.BrowserProvider(window.ethereum);
   // const contrato = new ethers.Contract(CONTRACT_ADDRESS, abi, provider);
@@ -66,6 +68,8 @@ export async function leerMensaje(onProgreso) {
  * Ejecuta actualizarMensaje() — transacción con firma y gas.
  */
 export async function enviarMensaje(texto, onProgreso) {
+  void texto;
+  void onProgreso;
   // TODO v1-4: Implementar con ethers
   // const provider = new ethers.BrowserProvider(window.ethereum);
   // const signer = await provider.getSigner();

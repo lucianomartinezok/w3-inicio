@@ -2,8 +2,8 @@
  * PanelNarrador.jsx — Drawer lateral flotante, no columna fija.
  * Muestra el log de eventos en tiempo real.
  */
-import { useNarrador } from '../context/NarradorContext';
-import { useModo } from '../context/ModoContext';
+import { useNarrador } from '../hooks/useNarrador';
+import { useModo } from '../hooks/useModo';
 
 const TIPO_CONFIG = {
   info:    { bg: 'bg-blue-50',   border: 'border-blue-100',   icon: 'ℹ️',  text: 'text-blue-700' },
@@ -22,12 +22,12 @@ export default function PanelNarrador({ onCerrar }) {
     : eventos.filter(e => e.tipo !== 'tecnico');
 
   return (
-    <div className="flex flex-col h-full max-h-[70vh]">
+    <div className="flex h-full min-h-0 flex-col">
       {/* Header */}
       <div className="flex items-center gap-3 px-5 py-4 border-b border-slate-200 shrink-0">
         <div className="w-8 h-8 rounded-lg bg-indigo-50 flex items-center justify-center text-base">📻</div>
         <div className="flex-1">
-          <h3 className="font-bold text-slate-800 text-sm" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+          <h3 className="text-sm font-bold text-slate-800">
             Narrador en vivo
           </h3>
           <p className="text-slate-400 text-xs">Lo que está pasando en Web3</p>

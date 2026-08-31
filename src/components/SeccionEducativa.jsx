@@ -131,7 +131,7 @@ export default function SeccionEducativa() {
     <div className="space-y-4">
       {/* Título */}
       <div>
-        <h2 className="font-black text-slate-800 text-xl" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+        <h2 className="text-xl font-black text-slate-800">
           🎓 Conceptos base
         </h2>
         <p className="text-slate-500 text-sm mt-1">

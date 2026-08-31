@@ -2,7 +2,7 @@
  * VisualizarMensaje.jsx — Rediseño con detalles de la transacción
  */
 import Termino from './Termino';
-import { useModo } from '../context/ModoContext';
+import { useModo } from '../hooks/useModo';
 import { obtenerInfoContrato } from '../services/web3';
 
 export default function VisualizarMensaje({ mensaje, ultimaTx }) {

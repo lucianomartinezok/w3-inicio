@@ -4,7 +4,6 @@
  * Se actualiza automáticamente desde el pasoActual del hook useContrato.
  */
 import { useState } from 'react';
-import { PASOS } from '../hooks/useContrato';
 import { getGrafico } from './graficos/index';
 
 const CONFIG_PASOS = [
