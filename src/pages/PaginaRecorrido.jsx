@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDocumentTitle } from '../hooks/useDocumentTitle';
 import MapaRecorrido, { MapaCompacto } from '../components/MapaRecorrido';
@@ -50,6 +50,7 @@ const ESTADO_INICIAL = {
 export default function PaginaRecorrido() {
   useDocumentTitle('Plan de aprendizaje');
   const modoPrueba = new URLSearchParams(window.location.search).get('prueba') === '1';
+  const mainRef = useRef(null);
   const [estado, setEstado] = useState(() => {
     try {
       const sesion = obtenerSesionActiva();
@@ -92,6 +93,16 @@ export default function PaginaRecorrido() {
     window.scrollTo(0, 0);
   }, [estado]);
 
+  // Al cambiar de paso o al ingresar desde el mapa, resetea el scroll del contenedor para mostrar siempre el header arriba
+  useLayoutEffect(() => {
+    if (mainRef.current) {
+      mainRef.current.scrollTop = 0;
+      if (typeof mainRef.current.scrollTo === 'function') {
+        mainRef.current.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+      }
+    }
+  }, [estado.paso, presentacionVisible]);
+
   const guardarRespuesta = (clave, valor) => {
     setEstado((actual) => ({
       ...actual,
@@ -115,6 +126,9 @@ export default function PaginaRecorrido() {
       };
     });
     setPista(0);
+    if (mainRef.current) {
+      mainRef.current.scrollTop = 0;
+    }
   };
 
   const irA = (paso) => {
@@ -122,6 +136,9 @@ export default function PaginaRecorrido() {
       setEstado((actual) => ({ ...actual, paso }));
       setPresentacionVisible(false);
       setPista(0);
+      if (mainRef.current) {
+        mainRef.current.scrollTop = 0;
+      }
     }
   };
 
@@ -231,7 +248,7 @@ export default function PaginaRecorrido() {
           />
 
           {/* CONTENIDO DEL NODO: 75% ANCHO, 100% ALTO, SCROLL INTERNO OBLIGATORIO, FONDO BLANCO */}
-          <main className="flex-1 h-full overflow-y-auto bg-slate-100 p-3 sm:p-5 lg:p-7 select-text">
+          <main ref={mainRef} className="flex-1 h-full overflow-y-auto bg-slate-100 p-3 sm:p-5 lg:p-7 select-text">
             <div className="mx-auto max-w-4xl rounded-2xl border-4 border-slate-900 bg-white shadow-[8px_8px_0_#0f172a] overflow-hidden">
               {/* HEADER TÉCNICO CON ESTÉTICA CYBERPUNK Y FONDO BLANCO */}
               <header className="border-b-2 border-slate-900 bg-white p-5 sm:p-7">
