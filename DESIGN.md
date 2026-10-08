@@ -89,7 +89,7 @@ En 1366×768 el cuerpo base es 15,2 px y los textos auxiliares no bajan de 11,5 
 
 ## Layout
 
-El contenido reserva 48 px a la izquierda para la pestaña de navegación. El drawer es modal, mide como máximo 22 rem y nunca empuja el contenido. La superficie utiliza una trama de 24 px que funciona como ritmo visual, no como decoración protagonista.
+El recorrido no usa navegación global lateral. Al ingresar muestra un mapa pixel-art completo con caminos ortogonales. Dentro de una actividad, el mapa se resume en una columna persistente: las postas avanzan de abajo hacia arriba sobre una línea recta, junto al nombre del estudiante y el acceso para volver al mapa completo. La superficie utiliza una trama de 24 px que funciona como ritmo visual, no como decoración protagonista.
 
 Teoría, conceptos y laboratorio caben en el alto visible a partir de 720 px de altura. El laboratorio usa una barra lateral de cuatro etapas y reemplaza el contenido dentro de un único panel, sin scroll del documento. Recorrido y glosario mantienen scroll natural. En pantallas angostas se permite reflujo y no se fuerza el contrato de viewport de la presentación.
 

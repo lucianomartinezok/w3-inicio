@@ -1,6 +1,7 @@
 /**
  * PaginaDiccionario.jsx — ruta /diccionario
  * Diccionario completo de términos Web3 con búsqueda, filtros por categoría y deep-link por hash.
+ * Estética neo-brutalista / cyber-clean, alta legibilidad y retorno directo al mapa.
  */
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -9,7 +10,7 @@ import { getGrafico } from '../components/graficos';
 import { useDocumentTitle } from '../hooks/useDocumentTitle';
 
 const CATEGORIA_ICONS = {
-  fundamentos: '⛓',
+  fundamentos: '⛓️',
   identidad: '🔑',
   contratos: '📜',
   transacciones: '📨',
@@ -38,7 +39,8 @@ export default function PaginaDiccionario() {
 
   const terminos = diccionario.filter((t) => {
     const q = busqueda.toLowerCase();
-    const coincideBusqueda = !q || t.titulo.toLowerCase().includes(q) || t.definicion.toLowerCase().includes(q);
+    const coincideBusqueda =
+      !q || t.titulo.toLowerCase().includes(q) || t.definicion.toLowerCase().includes(q);
     const coincideCategoria = catActiva === 'Todos' || t.categoria === catActiva;
     return coincideBusqueda && coincideCategoria;
   });
@@ -46,182 +48,270 @@ export default function PaginaDiccionario() {
   const categorias = ['Todos', ...Object.keys(CATEGORIAS)];
 
   return (
-    <div className="min-h-dvh w-full bg-transparent">
-      <div className="min-w-0">
-        <div className="mx-auto max-w-5xl px-6 py-6 lg:px-10 lg:py-7 xl:px-12">
+    <div className="min-h-dvh w-full bg-slate-100 text-slate-900 pb-12 select-text">
+      <div className="w-full max-w-5xl mx-auto px-4 py-5 sm:px-6 lg:px-8">
 
-          {/* Header */}
-          <div className="mb-7 text-center">
+        {/* CABECERA NEO-BRUTALISTA */}
+        <header className="mb-6 flex flex-wrap items-center justify-between gap-3 border-b-2 border-slate-900 pb-4">
+          <div className="flex flex-wrap items-center gap-2.5">
             <button
-              onClick={() => navigate('/teoria/web3')}
-              className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-800 fs-meta mb-5 transition-colors"
+              type="button"
+              onClick={() => navigate('/recorrido')}
+              className="flex items-center gap-1.5 rounded-lg border-2 border-slate-900 bg-slate-950 px-3.5 py-1.5 font-pixel text-[9px] uppercase text-cyan-300 font-bold shadow-[3px_3px_0_#0f172a] hover:bg-slate-800 hover:text-cyan-200 transition-colors active:translate-y-0.5"
             >
-              ← Volver a teoría
+              <span>←</span>
+              <span>VOLVER AL MAPA</span>
             </button>
-            <h1 className="fs-h1 font-black text-slate-900">
-              📖 Diccionario Web3
-            </h1>
-            <p className="text-slate-600 fs-lead mt-2">
-              {diccionario.length} términos explicados con analogías y ejemplos reales.
-            </p>
+            <span className="rounded border-2 border-slate-900 bg-fuchsia-200 px-2.5 py-1 font-pixel text-[9px] font-black uppercase text-slate-950 shadow-[2px_2px_0_#0f172a]">
+              GLOSARIO TÉCNICO WEB3
+            </span>
           </div>
 
-          {/* Buscador */}
-          <div className="relative mb-5">
-            <span className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 fs-meta">🔍</span>
-            <input
-              ref={searchRef}
-              type="text"
-              aria-label="Buscar en el glosario"
-              placeholder="Buscá un término... ej: gas, wallet, hash"
-              value={busqueda}
-              onChange={(e) => { setBusqueda(e.target.value); setCatActiva('Todos'); }}
-              className="w-full bg-white border border-slate-300 rounded-2xl pl-12 pr-4 py-4 fs-meta text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-indigo-400 shadow-sm transition-all"
-            />
-            {busqueda && (
-              <button
-                onClick={() => { setBusqueda(''); searchRef.current?.focus(); }}
-                aria-label="Limpiar búsqueda"
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 w-8 h-8 flex items-center justify-center rounded-lg hover:bg-slate-100 text-xl"
-              >
-                ×
-              </button>
-            )}
+          <div className="flex flex-wrap items-center gap-2">
+            <button
+              type="button"
+              onClick={() => navigate('/teoria/web3')}
+              className="rounded-lg border-2 border-slate-900 bg-white px-3 py-1 font-pixel text-[8.5px] uppercase font-bold text-slate-700 hover:bg-slate-100 transition-all"
+            >
+              Material 1
+            </button>
+            <button
+              type="button"
+              onClick={() => navigate('/teoria/conceptos')}
+              className="rounded-lg border-2 border-slate-900 bg-white px-3 py-1 font-pixel text-[8.5px] uppercase font-bold text-slate-700 hover:bg-slate-100 transition-all"
+            >
+              Material 2
+            </button>
+            <button
+              type="button"
+              onClick={() => navigate('/demo')}
+              className="rounded-lg border-2 border-slate-900 bg-cyan-400 px-3 py-1 font-pixel text-[8.5px] uppercase font-bold text-slate-950 shadow-[2px_2px_0_#0f172a] hover:bg-cyan-300 transition-all"
+            >
+              Laboratorio ↗
+            </button>
           </div>
+        </header>
 
-          {/* Filtros categorías */}
-          <div className="flex gap-2 flex-wrap mb-7 justify-center">
-            {categorias.map((cat) => (
+        {/* TÍTULO Y PRESENTACIÓN */}
+        <div className="mb-6 rounded-2xl border-4 border-slate-900 bg-white p-6 shadow-[6px_6px_0_#0f172a]">
+          <div className="flex items-center gap-3">
+            <span className="flex h-12 w-12 items-center justify-center rounded-xl border-2 border-slate-900 bg-fuchsia-300 text-2xl shadow-[2px_2px_0_#0f172a]">
+              📖
+            </span>
+            <div>
+              <h1 className="text-2xl sm:text-3xl font-black text-slate-950">
+                Glosario de Conceptos Blockchain
+              </h1>
+              <p className="text-sm text-slate-600 font-semibold mt-0.5">
+                {diccionario.length} definiciones técnicas con analogías pedagógicas y ejemplos prácticos de aula.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* BUSCADOR */}
+        <div className="relative mb-4">
+          <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 font-bold text-base">
+            🔍
+          </span>
+          <input
+            ref={searchRef}
+            type="text"
+            aria-label="Buscar en el glosario"
+            placeholder="Buscá un término técnico... ej: gas, wallet, hash, firma, nonce"
+            value={busqueda}
+            onChange={(e) => {
+              setBusqueda(e.target.value);
+              setCatActiva('Todos');
+            }}
+            className="w-full rounded-xl border-2 border-slate-900 bg-white pl-11 pr-10 py-3 text-sm font-semibold text-slate-950 placeholder-slate-400 shadow-[4px_4px_0_#0f172a] focus:outline-none focus:ring-2 focus:ring-cyan-400 transition-all"
+          />
+          {busqueda && (
+            <button
+              onClick={() => {
+                setBusqueda('');
+                searchRef.current?.focus();
+              }}
+              aria-label="Limpiar búsqueda"
+              className="absolute right-3 top-1/2 -translate-y-1/2 flex h-7 w-7 items-center justify-center rounded border border-slate-400 text-slate-600 hover:bg-slate-100 text-sm font-bold"
+            >
+              ✕
+            </button>
+          )}
+        </div>
+
+        {/* FILTROS POR CATEGORÍA */}
+        <div className="mb-6 flex flex-wrap gap-2">
+          {categorias.map((cat) => {
+            const esActivo = catActiva === cat;
+            return (
               <button
                 key={cat}
-                onClick={() => { setCatActiva(cat); setBusqueda(''); }}
-                className={`px-4 py-2 rounded-full fs-eyebrow font-semibold border transition-all ${
-                  catActiva === cat
-                    ? 'bg-indigo-600 text-white border-indigo-600 shadow-sm'
-                    : 'bg-white text-slate-600 border-slate-200 hover:border-slate-300 hover:bg-slate-50'
+                type="button"
+                onClick={() => {
+                  setCatActiva(cat);
+                  setBusqueda('');
+                }}
+                className={`rounded-lg border-2 border-slate-900 px-3 py-1 font-pixel text-[8.5px] uppercase font-bold transition-all ${
+                  esActivo
+                    ? 'bg-cyan-400 text-slate-950 shadow-[2px_2px_0_#0f172a]'
+                    : 'bg-white text-slate-700 hover:bg-slate-100'
                 }`}
               >
                 {cat !== 'Todos' && CATEGORIA_ICONS[cat] && `${CATEGORIA_ICONS[cat]} `}
                 {cat === 'Todos' ? 'Todos' : CATEGORIAS[cat]}
                 {cat === 'Todos' && ` (${diccionario.length})`}
               </button>
-            ))}
+            );
+          })}
+        </div>
+
+        {/* LISTADO DE TÉRMINOS */}
+        {terminos.length === 0 ? (
+          <div className="rounded-2xl border-4 border-slate-900 bg-white p-12 text-center shadow-[6px_6px_0_#0f172a]">
+            <p className="text-4xl mb-2">🔭</p>
+            <p className="font-pixel text-xs uppercase text-slate-900 font-bold">Sin resultados</p>
+            <p className="text-sm text-slate-600 font-medium mt-1">
+              No encontramos coincidencias para &quot;{busqueda}&quot;. Probá con otro término técnico.
+            </p>
           </div>
+        ) : (
+          <div className="space-y-3">
+            {terminos.map((termino) => {
+              const estaExpandido = expandido === termino.id;
+              const Grafico = termino.graficoId ? getGrafico(termino.graficoId) : null;
 
-          {/* Resultados */}
-          {terminos.length === 0 ? (
-            <div className="text-center py-16 text-slate-400">
-              <p className="text-4xl mb-3">🔭</p>
-              <p className="font-semibold">Sin resultados</p>
-              <p className="text-sm mt-1">Probá otro término</p>
-            </div>
-          ) : (
-            <div className="space-y-2">
-              {terminos.map((termino) => {
-                const estaExpandido = expandido === termino.id;
-                const Grafico = termino.graficoId ? getGrafico(termino.graficoId) : null;
-
-                return (
-                  <div
-                    key={termino.id}
-                    ref={(el) => { if (el) entryRefs.current[termino.id] = el; }}
-                    id={termino.id}
-                    className={`bg-white rounded-2xl border shadow-sm transition-all ${
-                      estaExpandido ? 'border-indigo-200' : 'border-slate-200 hover:border-slate-300'
+              return (
+                <div
+                  key={termino.id}
+                  ref={(el) => {
+                    if (el) entryRefs.current[termino.id] = el;
+                  }}
+                  id={termino.id}
+                  className={`rounded-xl border-2 border-slate-900 bg-white transition-all shadow-[4px_4px_0_#0f172a] ${
+                    estaExpandido ? 'ring-2 ring-cyan-400' : ''
+                  }`}
+                >
+                  {/* Encabezado del término */}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setExpandido(estaExpandido ? null : termino.id);
+                      window.history.replaceState(null, '', `/diccionario#${termino.id}`);
+                    }}
+                    className={`w-full flex items-center justify-between gap-4 p-4 text-left transition-colors ${
+                      estaExpandido ? 'bg-cyan-50/70 border-b-2 border-slate-900' : 'hover:bg-slate-50'
                     }`}
                   >
-                    {/* Header término */}
-                    <button
-                      onClick={() => {
-                        setExpandido(estaExpandido ? null : termino.id);
-                        window.history.replaceState(null, '', `/diccionario#${termino.id}`);
-                      }}
-                      className={`w-full flex items-center gap-4 px-6 py-5 rounded-2xl text-left transition-all ${estaExpandido ? 'bg-indigo-50 rounded-b-none' : 'hover:bg-slate-50'}`}
-                    >
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2 flex-wrap">
-                          <span className="font-bold text-slate-900 fs-h3 capitalize">{termino.titulo}</span>
-                          {termino.categoria && (
-                            <span className="fs-eyebrow bg-slate-100 text-slate-600 px-2.5 py-1 rounded-full font-semibold">
-                              {CATEGORIA_ICONS[termino.categoria]} {CATEGORIAS[termino.categoria]}
-                            </span>
-                          )}
-                        </div>
-                        {!estaExpandido && (
-                          <p className="text-slate-500 fs-meta mt-1 truncate">{termino.definicion}</p>
+                    <div className="min-w-0 flex-1">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span className="text-lg font-black text-slate-950 capitalize">
+                          {termino.titulo}
+                        </span>
+                        {termino.categoria && (
+                          <span className="rounded border border-slate-900 bg-slate-100 px-2 py-0.5 font-pixel text-[8px] font-bold text-slate-700 uppercase">
+                            {CATEGORIA_ICONS[termino.categoria]} {CATEGORIAS[termino.categoria]}
+                          </span>
                         )}
                       </div>
-                      <span className={`text-slate-400 text-2xl transition-transform shrink-0 ${estaExpandido ? 'rotate-180' : ''}`}>
-                        ▾
-                      </span>
-                    </button>
+                      {!estaExpandido && (
+                        <p className="mt-1 text-xs text-slate-600 truncate font-medium">
+                          {termino.definicion}
+                        </p>
+                      )}
+                    </div>
+                    <span className={`text-slate-800 font-bold text-xl transition-transform ${estaExpandido ? 'rotate-180' : ''}`}>
+                      ▾
+                    </span>
+                  </button>
 
-                    {/* Contenido expandido */}
-                    {estaExpandido && (
-                      <div className="px-6 pb-6 space-y-4 fade-in">
-                        {/* Definición */}
-                        <div>
-                          <p className="text-slate-500 fs-eyebrow font-bold uppercase tracking-wider mb-1.5">Definición</p>
-                          <p className="text-slate-700 fs-body leading-relaxed">{termino.definicion}</p>
-                        </div>
-
-                        {/* Analogía */}
-                        {termino.analogia && (
-                          <div className="bg-amber-50 border border-amber-100 rounded-xl px-5 py-4">
-                            <p className="text-amber-700 fs-eyebrow font-bold mb-1.5 uppercase tracking-wide">💡 Analogía en el mundo real</p>
-                            <p className="text-amber-900 fs-meta leading-relaxed">{termino.analogia}</p>
-                          </div>
-                        )}
-
-                        {/* Ejemplo */}
-                        {termino.ejemplo && (
-                          <div className="bg-blue-50 border border-blue-100 rounded-xl px-5 py-4">
-                            <p className="text-blue-700 fs-eyebrow font-bold mb-1.5 uppercase tracking-wide">🔍 Ejemplo</p>
-                            <p className="text-blue-900 fs-meta leading-relaxed">{termino.ejemplo}</p>
-                          </div>
-                        )}
-
-                        {/* Gráfico */}
-                        {Grafico && (
-                          <div className="bg-slate-50 rounded-xl border border-slate-200 p-5">
-                            <p className="text-slate-500 fs-eyebrow font-bold uppercase tracking-wider mb-3">Diagrama</p>
-                            <div className="flex justify-center">
-                              <Grafico />
-                            </div>
-                          </div>
-                        )}
-
-                        {/* Términos relacionados */}
-                        {termino.relacionados?.length > 0 && (
-                          <div>
-                            <p className="text-slate-500 fs-eyebrow font-bold uppercase tracking-wider mb-2">Relacionados</p>
-                            <div className="flex flex-wrap gap-2">
-                              {termino.relacionados.map((rel) => (
-                                <button
-                                  key={rel}
-                                  onClick={() => {
-                                    setExpandido(rel);
-                                    window.history.replaceState(null, '', `/diccionario#${rel}`);
-                                    setTimeout(() => entryRefs.current[rel]?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 100);
-                                  }}
-                                  className="fs-eyebrow bg-indigo-50 text-indigo-700 hover:bg-indigo-100 border border-indigo-100 px-3 py-1.5 rounded-full font-semibold transition-colors capitalize"
-                                >
-                                  {rel}
-                                </button>
-                              ))}
-                            </div>
-                          </div>
-                        )}
+                  {/* Cuerpo desplegable */}
+                  {estaExpandido && (
+                    <div className="p-5 space-y-4">
+                      {/* Definición */}
+                      <div>
+                        <span className="font-pixel text-[8.5px] uppercase tracking-wider text-slate-500 font-bold block mb-1">
+                          Definición técnica
+                        </span>
+                        <p className="text-sm text-slate-900 font-semibold leading-relaxed">
+                          {termino.definicion}
+                        </p>
                       </div>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          )}
 
-          <div className="h-8" />
-        </div>
+                      {/* Analogía */}
+                      {termino.analogia && (
+                        <div className="rounded-lg border-2 border-slate-900 bg-amber-50 p-4 shadow-[2px_2px_0_#0f172a]">
+                          <span className="font-pixel text-[8.5px] uppercase font-bold text-amber-800 block mb-1">
+                            💡 Analogía pedagógica para el aula
+                          </span>
+                          <p className="text-xs text-amber-950 leading-relaxed font-semibold">
+                            {termino.analogia}
+                          </p>
+                        </div>
+                      )}
+
+                      {/* Ejemplo */}
+                      {termino.ejemplo && (
+                        <div className="rounded-lg border-2 border-slate-900 bg-cyan-50 p-4 shadow-[2px_2px_0_#0f172a]">
+                          <span className="font-pixel text-[8.5px] uppercase font-bold text-cyan-800 block mb-1">
+                            🔍 Ejemplo de aplicación
+                          </span>
+                          <p className="text-xs text-cyan-950 leading-relaxed font-semibold">
+                            {termino.ejemplo}
+                          </p>
+                        </div>
+                      )}
+
+                      {/* Gráfico interactivo */}
+                      {Grafico && (
+                        <div className="rounded-lg border-2 border-slate-900 bg-slate-50 p-4 shadow-[2px_2px_0_#0f172a]">
+                          <span className="font-pixel text-[8.5px] uppercase font-bold text-slate-600 block mb-2 text-center">
+                            Diagrama de Funcionamiento
+                          </span>
+                          <div className="flex justify-center p-2">
+                            <Grafico />
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Términos relacionados */}
+                      {termino.relacionados?.length > 0 && (
+                        <div className="border-t border-slate-200 pt-3">
+                          <span className="font-pixel text-[8.5px] uppercase font-bold text-slate-500 block mb-2">
+                            Términos relacionados
+                          </span>
+                          <div className="flex flex-wrap gap-2">
+                            {termino.relacionados.map((rel) => (
+                              <button
+                                key={rel}
+                                type="button"
+                                onClick={() => {
+                                  setExpandido(rel);
+                                  window.history.replaceState(null, '', `/diccionario#${rel}`);
+                                  setTimeout(
+                                    () =>
+                                      entryRefs.current[rel]?.scrollIntoView({
+                                        behavior: 'smooth',
+                                        block: 'center',
+                                      }),
+                                    100
+                                  );
+                                }}
+                                className="rounded-md border border-slate-900 bg-slate-100 hover:bg-cyan-200 px-2.5 py-1 font-pixel text-[8px] uppercase font-bold text-slate-900 transition-colors"
+                              >
+                                {rel}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        )}
       </div>
     </div>
   );

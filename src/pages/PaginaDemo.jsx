@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useContrato } from '../hooks/useContrato';
 import { useNarrador } from '../hooks/useNarrador';
 import { useDocumentTitle } from '../hooks/useDocumentTitle';
@@ -77,32 +78,82 @@ export default function PaginaDemo() {
   };
 
   return (
-    <div className="h-[calc(100dvh-1.75rem)] overflow-hidden bg-transparent p-4 text-slate-800 lg:p-5">
-      <div className="mx-auto grid h-full max-w-7xl gap-4 lg:grid-cols-[13.5rem_minmax(0,1fr)]">
-        <aside className="flex min-h-0 flex-col rounded-3xl border border-slate-200 bg-white p-3 shadow-sm">
-          <div className="border-b border-slate-200 px-3 py-3">
-            <p className="text-xs font-black uppercase tracking-[0.16em] text-indigo-600">Laboratorio Web3</p>
-            <h1 className="mt-1 text-xl font-black text-slate-950">Una transacción, paso a paso</h1>
+    <div className="h-[calc(100dvh-1.75rem)] overflow-hidden bg-slate-100 p-4 text-slate-900 lg:p-5 select-text">
+      <div className="mx-auto grid h-full max-w-7xl gap-4 lg:grid-cols-[14.5rem_minmax(0,1fr)]">
+        <aside className="flex min-h-0 flex-col rounded-2xl border-4 border-slate-900 bg-white p-3.5 shadow-[6px_6px_0_#0f172a]">
+          <div className="border-b-2 border-slate-900 pb-3">
+            <Link
+              to="/recorrido"
+              className="mb-2.5 flex items-center justify-center gap-1.5 rounded-lg border-2 border-slate-900 bg-slate-950 px-3 py-1.5 font-pixel text-[8.5px] uppercase text-cyan-300 font-bold hover:bg-slate-800 hover:text-cyan-200 transition-colors shadow-[2px_2px_0_#0f172a] active:translate-y-0.5"
+            >
+              <span>←</span>
+              <span>VOLVER AL MAPA</span>
+            </Link>
+            <p className="font-pixel text-[9px] font-black uppercase tracking-wider text-cyan-800">Laboratorio Web3</p>
+            <h1 className="mt-1 text-base font-black text-slate-950 leading-tight">Transacción simulada</h1>
           </div>
-          <nav className="mt-3 flex flex-1 flex-col gap-2" aria-label="Etapas del laboratorio">
+          <nav className="mt-3 flex flex-1 flex-col gap-2 overflow-y-auto" aria-label="Etapas del laboratorio">
             {ETAPAS.map(([icono, titulo, detalle], indice) => {
               const habilitada = indice <= maxEtapa;
-              const completa = indice < maxEtapa || indice === 3 && ultimaTx;
-              return <button key={titulo} type="button" disabled={!habilitada} onClick={() => setEtapa(indice)} className={`flex min-h-16 items-center gap-3 rounded-2xl border px-3 py-2 text-left transition ${etapa === indice ? 'border-indigo-300 bg-indigo-50 text-indigo-950' : habilitada ? 'border-transparent hover:bg-slate-50' : 'cursor-not-allowed border-transparent opacity-35'}`}>
-                <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl ${completa ? 'bg-emerald-500 text-white' : etapa === indice ? 'bg-indigo-600 text-white' : 'bg-slate-100'}`}>{completa ? '✓' : icono}</span>
-                <span className="min-w-0"><span className="block text-sm font-black">{indice + 1}. {titulo}</span><span className="block text-xs leading-snug text-slate-500">{detalle}</span></span>
-              </button>;
+              const completa = indice < maxEtapa || (indice === 3 && ultimaTx);
+              return (
+                <button
+                  key={titulo}
+                  type="button"
+                  disabled={!habilitada}
+                  onClick={() => setEtapa(indice)}
+                  className={`flex min-h-14 items-center gap-2.5 rounded-xl border-2 border-slate-900 px-3 py-2 text-left transition ${
+                    etapa === indice
+                      ? 'bg-cyan-100 text-slate-950 shadow-[2px_2px_0_#0f172a]'
+                      : habilitada
+                      ? 'bg-white hover:bg-slate-50 text-slate-800'
+                      : 'cursor-not-allowed bg-slate-100 text-slate-400 opacity-40'
+                  }`}
+                >
+                  <span
+                    className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border-2 border-slate-900 font-pixel text-xs font-black ${
+                      completa
+                        ? 'bg-emerald-400 text-slate-950'
+                        : etapa === indice
+                        ? 'bg-cyan-400 text-slate-950'
+                        : 'bg-white text-slate-700'
+                    }`}
+                  >
+                    {completa ? '✓' : icono}
+                  </span>
+                  <span className="min-w-0">
+                    <span className="block text-xs font-black font-pixel uppercase">{indice + 1}. {titulo}</span>
+                    <span className="block text-[11px] leading-snug text-slate-600 font-semibold">{detalle}</span>
+                  </span>
+                </button>
+              );
             })}
           </nav>
         </aside>
 
-        <main className="min-h-0 overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
+        <main className="min-h-0 overflow-hidden rounded-2xl border-4 border-slate-900 bg-white shadow-[6px_6px_0_#0f172a]">
           <div className="flex h-full min-h-0 flex-col">
-            <div className="flex shrink-0 items-center justify-between gap-4 border-b border-slate-200 bg-slate-50 px-6 py-3">
-              <div><p className="text-xs font-black uppercase tracking-wider text-indigo-600">Etapa {etapa + 1} de {ETAPAS.length}</p><p className="mt-0.5 text-sm text-slate-500">Todo ocurre en esta pantalla. Podés volver desde la barra lateral.</p></div>
-              <div className="hidden items-center gap-1 sm:flex" aria-label={`Progreso: ${maxEtapa + 1} de ${ETAPAS.length}`}>{ETAPAS.map((item, indice) => <span key={item[1]} className={`h-2 w-10 rounded-full ${indice <= maxEtapa ? 'bg-indigo-600' : 'bg-slate-200'}`} />)}</div>
+            <div className="flex shrink-0 items-center justify-between gap-4 border-b-2 border-slate-900 bg-slate-50 px-6 py-3">
+              <div>
+                <p className="font-pixel text-[9px] font-black uppercase tracking-wider text-cyan-800">
+                  Etapa {etapa + 1} de {ETAPAS.length}
+                </p>
+                <p className="mt-0.5 text-xs text-slate-600 font-medium">
+                  Todo ocurre en esta pantalla. Podés navegar desde la barra lateral.
+                </p>
+              </div>
+              <div className="hidden items-center gap-1.5 sm:flex" aria-label={`Progreso: ${maxEtapa + 1} de ${ETAPAS.length}`}>
+                {ETAPAS.map((item, indice) => (
+                  <span
+                    key={item[1]}
+                    className={`h-2.5 w-8 rounded border border-slate-900 ${
+                      indice <= maxEtapa ? 'bg-cyan-400' : 'bg-slate-200'
+                    }`}
+                  />
+                ))}
+              </div>
             </div>
-            <div className="min-h-0 flex-1 p-5 lg:p-6">
+            <div className="min-h-0 flex-1 p-5 lg:p-6 overflow-y-auto">
               {etapa === 0 && <EtapaConexion respuesta={respuestaConexion} setRespuesta={setRespuestaConexion} conectar={conectarYAvanzar} cargando={cargando} error={error} />}
               {etapa === 1 && <EtapaLectura cuenta={cuenta} chainId={chainId} balance={balance} mensaje={mensajeActual} respuesta={respuestaLectura} setRespuesta={setRespuestaLectura} avanzar={leerYAvanzar} cargando={cargando} />}
               {etapa === 2 && <EtapaEscritura texto={texto} setTexto={setTexto} enviar={enviarYAvanzar} cargando={cargando} error={error} volver={() => setEtapa(1)} />}
