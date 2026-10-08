@@ -89,7 +89,7 @@ export default function PortadaBienvenida({ datosIniciales, onComenzar }) {
       return;
     }
     if (password.length < 4) {
-      setError('La contraseña debe tener al menos 4 caracteres.');
+      setError('La clave debe tener al menos 4 caracteres.');
       return;
     }
 
@@ -118,7 +118,7 @@ export default function PortadaBienvenida({ datosIniciales, onComenzar }) {
         esInvitado: false,
       });
     } catch (err) {
-      setError('Error al registrar usuario: ' + err.message);
+      setError('Error al registrar: ' + err.message);
     } finally {
       setCargando(false);
     }
@@ -142,7 +142,7 @@ export default function PortadaBienvenida({ datosIniciales, onComenzar }) {
         esInvitado: false,
       });
     } catch {
-      setError('El formato del código o archivo no es válido. Debe ser JSON.');
+      setError('Código o archivo JSON no válido.');
     }
   };
 
@@ -165,7 +165,7 @@ export default function PortadaBienvenida({ datosIniciales, onComenzar }) {
   };
 
   return (
-    <div className="relative min-h-screen min-h-[100dvh] w-full overflow-y-auto bg-[#060814] text-slate-100 flex flex-col justify-between p-4 sm:p-6 lg:p-8 select-none">
+    <div className="relative h-screen h-[100dvh] max-h-[100dvh] w-full overflow-hidden bg-[#060814] text-slate-100 flex flex-col justify-between p-2 sm:p-3 lg:p-4 select-none">
       {/* Modal del panel docente */}
       {modalDocente && <PanelDocente onCerrar={() => setModalDocente(false)} />}
 
@@ -175,21 +175,21 @@ export default function PortadaBienvenida({ datosIniciales, onComenzar }) {
         style={{
           backgroundImage:
             'linear-gradient(to right, #00f0ff 1px, transparent 1px), linear-gradient(to bottom, #00f0ff 1px, transparent 1px)',
-          backgroundSize: '40px 40px',
+          backgroundSize: '36px 36px',
         }}
       />
 
-      {/* HEADER SUPERIOR */}
-      <header className="relative z-10 mx-auto w-full max-w-5xl border-b-2 border-cyan-500/30 pb-4 flex flex-wrap items-center justify-between gap-3">
-        <div className="flex items-center gap-2.5">
-          <span className="flex h-9 w-9 items-center justify-center rounded-lg border-2 border-cyan-400 bg-cyan-950 font-pixel text-base text-cyan-200 shadow-[0_0_12px_rgba(0,240,255,0.4)]">
+      {/* HEADER SUPERIOR COMPACTO (Ajustado para 11") */}
+      <header className="relative z-10 mx-auto w-full max-w-5xl border-b border-cyan-500/30 pb-2 flex shrink-0 items-center justify-between gap-2">
+        <div className="flex items-center gap-2">
+          <span className="flex h-7 w-7 items-center justify-center rounded-lg border border-cyan-400 bg-cyan-950 font-pixel text-xs text-cyan-200 shadow-[0_0_8px_rgba(0,240,255,0.4)]">
             ⛓️
           </span>
           <div>
-            <h1 className="font-pixel text-xs sm:text-sm font-black uppercase tracking-wider text-[#00f0ff] drop-shadow-[0_0_8px_rgba(0,240,255,0.6)]">
+            <h1 className="font-pixel text-[11px] sm:text-xs font-black uppercase tracking-wider text-[#00f0ff] drop-shadow-[0_0_6px_rgba(0,240,255,0.6)]">
               INTRO A BLOCKCHAIN
             </h1>
-            <p className="font-pixel text-[8px] sm:text-[9px] text-cyan-300 font-bold uppercase">
+            <p className="font-pixel text-[7.5px] text-cyan-300 font-bold uppercase">
               SECUENCIA DE APRENDIZAJE INTERACTIVA
             </p>
           </div>
@@ -199,95 +199,95 @@ export default function PortadaBienvenida({ datosIniciales, onComenzar }) {
           <button
             type="button"
             onClick={() => setModalDocente(true)}
-            className="rounded border border-amber-400/50 bg-amber-950/60 hover:bg-amber-900/80 px-3 py-1 font-pixel text-[8.5px] text-amber-200 font-bold uppercase transition-colors flex items-center gap-1.5 shadow-[0_0_10px_rgba(251,191,36,0.2)]"
+            className="rounded border border-amber-400/50 bg-amber-950/60 hover:bg-amber-900/80 px-2.5 py-1 font-pixel text-[8px] text-amber-200 font-bold uppercase transition-colors flex items-center gap-1 shadow-[0_0_8px_rgba(251,191,36,0.2)]"
           >
             <span>👨‍🏫</span>
             <span>PANEL DOCENTE</span>
           </button>
-          <div className="rounded border border-cyan-500/40 bg-[#091124] px-2.5 py-1 font-pixel text-[8px] text-cyan-300 font-bold">
-            TERMINAL V2.5
+          <div className="hidden sm:block rounded border border-cyan-500/40 bg-[#091124] px-2 py-0.5 font-pixel text-[7.5px] text-cyan-300 font-bold">
+            V2.5 · 11" OK
           </div>
         </div>
       </header>
 
-      {/* CONTENIDO PRINCIPAL: EXPLICACIÓN + FORMULARIO */}
-      <main className="relative z-10 mx-auto w-full max-w-5xl my-6 grid grid-cols-1 lg:grid-cols-[1.05fr_1.15fr] gap-6 items-stretch">
+      {/* CONTENIDO PRINCIPAL: 100% VH SIN SCROLL OBLIGATORIO */}
+      <main className="relative z-10 mx-auto w-full max-w-5xl my-auto py-1 sm:py-2 grid grid-cols-1 lg:grid-cols-[1fr_1.15fr] gap-3 sm:gap-4 items-stretch flex-1 min-h-0 overflow-hidden">
         {/* PANEL IZQUIERDO: EXPLICACIÓN DEL TRAYECTO PEDAGÓGICO */}
-        <div className="rounded-2xl border-2 border-cyan-500/40 bg-[#090e22] p-6 sm:p-7 shadow-[0_0_30px_rgba(0,240,255,0.15)] flex flex-col justify-between">
+        <div className="rounded-xl border border-cyan-500/40 bg-[#090e22] p-3 sm:p-4 shadow-[0_0_20px_rgba(0,240,255,0.12)] flex flex-col justify-between overflow-y-auto min-h-0">
           <div>
-            <div className="inline-flex items-center gap-1.5 rounded border border-cyan-400 bg-cyan-950/80 px-2.5 py-1 font-pixel text-[8px] text-cyan-300 font-bold uppercase mb-4">
+            <div className="inline-flex items-center gap-1 rounded border border-cyan-400 bg-cyan-950/80 px-2 py-0.5 font-pixel text-[7.5px] text-cyan-300 font-bold uppercase mb-2">
               🎯 ¿CÓMO FUNCIONA ESTE TRAYECTO?
             </div>
 
-            <h2 className="text-xl sm:text-2xl font-black text-white leading-tight">
-              Bienvenido a la red distribuida de aprendizaje.
+            <h2 className="text-base sm:text-lg font-black text-white leading-tight">
+              Red distribuida de aprendizaje.
             </h2>
 
-            <p className="mt-3 text-xs sm:text-sm text-slate-300 leading-relaxed font-medium">
-              Vas a recorrer <strong className="text-cyan-300">10 nodos interactivos</strong> a lo largo de <b>3 clases presenciales</b> con tu docente y compañeros.
+            <p className="mt-1.5 text-xs text-slate-300 leading-snug font-medium">
+              Vas a recorrer <strong className="text-cyan-300">10 nodos interactivos</strong> a lo largo de <b>3 clases presenciales</b> con tu docente y equipo.
             </p>
 
-            <div className="mt-5 space-y-3 font-medium text-xs">
-              <div className="rounded-xl border border-cyan-500/20 bg-[#0c1630] p-3 flex gap-3 items-start">
-                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded bg-cyan-400 text-slate-950 font-pixel text-[9px] font-black">
+            <div className="mt-3 space-y-2 font-medium text-xs">
+              <div className="rounded-lg border border-cyan-500/20 bg-[#0c1630] p-2 flex gap-2.5 items-start">
+                <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded bg-cyan-400 text-slate-950 font-pixel text-[8px] font-black">
                   1
                 </span>
-                <div>
-                  <strong className="text-cyan-200 block font-pixel text-[9px] uppercase">
-                    Clase 1 · El problema de la confianza (Hito 1)
+                <div className="min-w-0">
+                  <strong className="text-cyan-200 block font-pixel text-[8px] uppercase">
+                    Clase 1 · Confianza y Blockchain humana
                   </strong>
-                  <span className="text-slate-300 leading-snug block mt-0.5">
-                    Entendé por qué no necesitamos intermediarios, participá en la <b>Blockchain humana</b> y desbloqueá tu <b>Primera Clave Secreta</b>.
+                  <span className="text-slate-300 text-[11px] leading-tight block mt-0.5">
+                    Entendé cómo funciona un registro compartido y desbloqueá tu <b>Primera Clave Secreta</b>.
                   </span>
                 </div>
               </div>
 
-              <div className="rounded-xl border border-cyan-500/20 bg-[#0c1630] p-3 flex gap-3 items-start">
-                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded bg-cyan-400 text-slate-950 font-pixel text-[9px] font-black">
+              <div className="rounded-lg border border-cyan-500/20 bg-[#0c1630] p-2 flex gap-2.5 items-start">
+                <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded bg-cyan-400 text-slate-950 font-pixel text-[8px] font-black">
                   2
                 </span>
-                <div>
-                  <strong className="text-cyan-200 block font-pixel text-[9px] uppercase">
-                    Clase 2 · Laboratorio de Wallets y Smart Contracts (Hito 2)
+                <div className="min-w-0">
+                  <strong className="text-cyan-200 block font-pixel text-[8px] uppercase">
+                    Clase 2 · Wallets y Smart Contracts
                   </strong>
-                  <span className="text-slate-300 leading-snug block mt-0.5">
-                    Experimentá en parejas en el simulador, firmá transacciones, testeá ataques a la red y obtené tu <b>Segunda Clave Secreta</b>.
+                  <span className="text-slate-300 text-[11px] leading-tight block mt-0.5">
+                    Laboratorio simulado en parejas: firmá transacciones y obtené tu <b>Segunda Clave Secreta</b>.
                   </span>
                 </div>
               </div>
 
-              <div className="rounded-xl border border-cyan-500/20 bg-[#0c1630] p-3 flex gap-3 items-start">
-                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded bg-cyan-400 text-slate-950 font-pixel text-[9px] font-black">
+              <div className="rounded-lg border border-cyan-500/20 bg-[#0c1630] p-2 flex gap-2.5 items-start">
+                <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded bg-cyan-400 text-slate-950 font-pixel text-[8px] font-black">
                   3
                 </span>
-                <div>
-                  <strong className="text-cyan-200 block font-pixel text-[9px] uppercase">
-                    Clase 3 · Gobernanza, Debate y Cierre
+                <div className="min-w-0">
+                  <strong className="text-cyan-200 block font-pixel text-[8px] uppercase">
+                    Clase 3 · Debate y Diploma Oficial
                   </strong>
-                  <span className="text-slate-300 leading-snug block mt-0.5">
-                    Defendé tu caso de uso, conseguí la <b>Tercera Clave</b> y canjeá las 3 contraseñas por tu <b>Diploma Oficial Descargable</b>.
+                  <span className="text-slate-300 text-[11px] leading-tight block mt-0.5">
+                    Conseguí la <b>Tercera Clave</b> y canjeá tus 3 contraseñas por tu <b>Diploma Descargable</b>.
                   </span>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="mt-5 rounded-lg border border-cyan-500/30 bg-cyan-950/40 p-3 text-[11px] text-cyan-200 leading-relaxed font-medium">
-            💡 <b>Tu progreso queda guardado con tu contraseña:</b> Podés cerrar la pestaña o continuar en cualquier momento ingresando con tu DNI y tu clave.
+          <div className="mt-2.5 rounded-lg border border-cyan-500/30 bg-cyan-950/40 p-2 text-[10px] text-cyan-200 leading-snug font-medium">
+            💡 <b>Tu avance se guarda automáticamente:</b> Entrá siempre con tu DNI y tu contraseña para no perder tus respuestas.
           </div>
         </div>
 
-        {/* PANEL DERECHO: FORMULARIO CON PESTAÑAS (LOGIN / REGISTRO / IMPORTAR) */}
-        <div className="rounded-2xl border-2 border-cyan-400 bg-white p-5 sm:p-7 shadow-[8px_8px_0_#0f172a] text-slate-900 flex flex-col justify-between">
+        {/* PANEL DERECHO: FORMULARIO OPTIMIZADO PARA 11" (ALTURA CONTROLADA) */}
+        <div className="rounded-xl border-2 border-cyan-400 bg-white p-3 sm:p-4 shadow-[4px_4px_0_#0f172a] text-slate-900 flex flex-col justify-between overflow-y-auto min-h-0">
           <div>
-            {/* PESTAÑAS DE NAVEGACIÓN */}
-            <div className="flex border-b-2 border-slate-900 mb-4 gap-1">
+            {/* PESTAÑAS COMPACTAS */}
+            <div className="flex border-b-2 border-slate-900 mb-2.5 gap-1 shrink-0">
               <button
                 type="button"
                 onClick={() => { setPestana('login'); setError(''); }}
-                className={`flex-1 py-2 font-pixel text-[9px] uppercase font-black transition-colors ${
+                className={`flex-1 py-1 font-pixel text-[8.5px] uppercase font-black transition-colors ${
                   pestana === 'login'
-                    ? 'border-b-4 border-cyan-500 text-cyan-900 bg-cyan-50/70 -mb-[2px]'
+                    ? 'border-b-2 border-cyan-500 text-cyan-900 bg-cyan-50 -mb-[2px]'
                     : 'text-slate-500 hover:text-slate-800'
                 }`}
               >
@@ -296,9 +296,9 @@ export default function PortadaBienvenida({ datosIniciales, onComenzar }) {
               <button
                 type="button"
                 onClick={() => { setPestana('registro'); setError(''); }}
-                className={`flex-1 py-2 font-pixel text-[9px] uppercase font-black transition-colors ${
+                className={`flex-1 py-1 font-pixel text-[8.5px] uppercase font-black transition-colors ${
                   pestana === 'registro'
-                    ? 'border-b-4 border-cyan-500 text-cyan-900 bg-cyan-50/70 -mb-[2px]'
+                    ? 'border-b-2 border-cyan-500 text-cyan-900 bg-cyan-50 -mb-[2px]'
                     : 'text-slate-500 hover:text-slate-800'
                 }`}
               >
@@ -307,37 +307,37 @@ export default function PortadaBienvenida({ datosIniciales, onComenzar }) {
               <button
                 type="button"
                 onClick={() => { setPestana('importar'); setError(''); }}
-                className={`px-3 py-2 font-pixel text-[8px] uppercase font-black transition-colors ${
+                className={`px-2.5 py-1 font-pixel text-[7.5px] uppercase font-black transition-colors ${
                   pestana === 'importar'
-                    ? 'border-b-4 border-cyan-500 text-cyan-900 bg-cyan-50/70 -mb-[2px]'
+                    ? 'border-b-2 border-cyan-500 text-cyan-900 bg-cyan-50 -mb-[2px]'
                     : 'text-slate-400 hover:text-slate-700'
                 }`}
-                title="Restaurar ficha o respaldo"
+                title="Restaurar copia de otra netbook"
               >
                 🔄 IMPORTAR
               </button>
             </div>
 
             {error && (
-              <div className="mb-4 rounded-lg border-2 border-red-500 bg-red-50 p-2.5 font-pixel text-[9px] font-bold text-red-700 leading-snug">
+              <div className="mb-2 rounded border border-red-500 bg-red-50 p-1.5 font-pixel text-[8px] font-bold text-red-700 leading-tight">
                 ⚠️ {error}
               </div>
             )}
 
             {/* VISTA 1: INICIAR SESIÓN */}
             {pestana === 'login' && (
-              <form onSubmit={handleLoginSubmit} className="space-y-3.5">
+              <form onSubmit={handleLoginSubmit} className="space-y-2.5">
                 <div>
-                  <h3 className="text-lg font-black text-slate-950">
-                    Continuá con tu progreso
+                  <h3 className="text-sm sm:text-base font-black text-slate-950">
+                    Continuá con tu recorrido
                   </h3>
-                  <p className="text-xs text-slate-600 font-medium">
-                    Ingresá tu DNI y tu contraseña para retomar tus respuestas.
+                  <p className="text-[11px] text-slate-600 font-medium">
+                    Ingresá tu DNI y contraseña para recuperar tus respuestas.
                   </p>
                 </div>
 
                 <div>
-                  <label className="block font-pixel text-[8.5px] uppercase font-bold text-slate-700 mb-1">
+                  <label className="block font-pixel text-[8px] uppercase font-bold text-slate-700 mb-0.5">
                     DNI del Estudiante *
                   </label>
                   <input
@@ -345,13 +345,13 @@ export default function PortadaBienvenida({ datosIniciales, onComenzar }) {
                     required
                     value={loginDni}
                     onChange={(e) => setLoginDni(e.target.value)}
-                    placeholder="Número de documento sin puntos"
-                    className="w-full rounded-lg border-2 border-slate-900 bg-slate-50 px-3 py-2 text-sm font-bold text-slate-950 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-cyan-400 font-mono"
+                    placeholder="Número de DNI sin puntos"
+                    className="w-full rounded-lg border-2 border-slate-900 bg-slate-50 px-2.5 py-1.5 text-xs font-bold text-slate-950 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-1 focus:ring-cyan-400 font-mono"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-pixel text-[8.5px] uppercase font-bold text-slate-700 mb-1">
+                  <label className="block font-pixel text-[8px] uppercase font-bold text-slate-700 mb-0.5">
                     Contraseña *
                   </label>
                   <input
@@ -359,47 +359,47 @@ export default function PortadaBienvenida({ datosIniciales, onComenzar }) {
                     required
                     value={loginPassword}
                     onChange={(e) => setLoginPassword(e.target.value)}
-                    placeholder="Tu contraseña secreta"
-                    className="w-full rounded-lg border-2 border-slate-900 bg-slate-50 px-3 py-2 text-sm font-bold text-slate-950 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-cyan-400"
+                    placeholder="Tu clave secreta"
+                    className="w-full rounded-lg border-2 border-slate-900 bg-slate-50 px-2.5 py-1.5 text-xs font-bold text-slate-950 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-1 focus:ring-cyan-400"
                   />
                 </div>
 
                 <button
                   type="submit"
                   disabled={cargando}
-                  className="mt-2 w-full rounded-xl border-2 border-slate-900 bg-cyan-400 hover:bg-cyan-300 py-3 px-4 font-pixel text-[10px] uppercase font-black text-slate-950 shadow-[4px_4px_0_#0f172a] transition-all hover:translate-x-0.5 active:translate-y-0.5"
+                  className="w-full rounded-lg border-2 border-slate-900 bg-cyan-400 hover:bg-cyan-300 py-2 px-3 font-pixel text-[9px] uppercase font-black text-slate-950 shadow-[2px_2px_0_#0f172a] transition-all active:translate-y-0.5"
                 >
-                  {cargando ? 'VALIDANDO...' : 'ENTRAR Y CONTINUAR MI RECORRIDO →'}
+                  {cargando ? 'VALIDANDO...' : 'ENTRAR AL RECORRIDO →'}
                 </button>
 
-                <p className="text-center text-xs text-slate-600 pt-1">
-                  ¿Es tu primera vez?{' '}
+                <p className="text-center text-[10px] text-slate-600 pt-0.5">
+                  ¿No tenés cuenta?{' '}
                   <button
                     type="button"
                     onClick={() => { setPestana('registro'); setError(''); }}
                     className="font-bold text-cyan-800 underline hover:text-cyan-950"
                   >
-                    Creá tu cuenta aquí
+                    Creala acá
                   </button>
                 </p>
               </form>
             )}
 
-            {/* VISTA 2: REGISTRO DE CUENTA NUEVA */}
+            {/* VISTA 2: REGISTRO DE CUENTA NUEVA (COMPACTA) */}
             {pestana === 'registro' && (
-              <form onSubmit={handleRegistroSubmit} className="space-y-3">
+              <form onSubmit={handleRegistroSubmit} className="space-y-1.5">
                 <div>
-                  <h3 className="text-lg font-black text-slate-950">
+                  <h3 className="text-xs sm:text-sm font-black text-slate-950">
                     Registro de nuevo estudiante
                   </h3>
-                  <p className="text-xs text-slate-600 font-medium">
-                    Crea tu usuario para vincular tus bloques y tu diploma.
+                  <p className="text-[10px] text-slate-600 font-medium">
+                    Vincula tus respuestas con tu DNI y tu clave.
                   </p>
                 </div>
 
-                <div className="grid grid-cols-2 gap-2.5">
+                <div className="grid grid-cols-2 gap-2">
                   <div>
-                    <label className="block font-pixel text-[8.5px] uppercase font-bold text-slate-700 mb-1">
+                    <label className="block font-pixel text-[7.5px] uppercase font-bold text-slate-700 mb-0.5">
                       Nombre *
                     </label>
                     <input
@@ -408,12 +408,12 @@ export default function PortadaBienvenida({ datosIniciales, onComenzar }) {
                       value={nombre}
                       onChange={(e) => setNombre(e.target.value)}
                       placeholder="Ej: Sofía"
-                      className="w-full rounded-lg border-2 border-slate-900 bg-slate-50 px-3 py-1.5 text-sm font-bold text-slate-950 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-cyan-400"
+                      className="w-full rounded border-2 border-slate-900 bg-slate-50 px-2 py-1 text-xs font-bold text-slate-950 focus:bg-white focus:outline-none"
                     />
                   </div>
 
                   <div>
-                    <label className="block font-pixel text-[8.5px] uppercase font-bold text-slate-700 mb-1">
+                    <label className="block font-pixel text-[7.5px] uppercase font-bold text-slate-700 mb-0.5">
                       Apellido *
                     </label>
                     <input
@@ -422,49 +422,57 @@ export default function PortadaBienvenida({ datosIniciales, onComenzar }) {
                       value={apellido}
                       onChange={(e) => setApellido(e.target.value)}
                       placeholder="Ej: Rossi"
-                      className="w-full rounded-lg border-2 border-slate-900 bg-slate-50 px-3 py-1.5 text-sm font-bold text-slate-950 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-cyan-400"
+                      className="w-full rounded border-2 border-slate-900 bg-slate-50 px-2 py-1 text-xs font-bold text-slate-950 focus:bg-white focus:outline-none"
                     />
                   </div>
                 </div>
 
-                {/* DNI Y HASH */}
-                <div>
-                  <label className="block font-pixel text-[8.5px] uppercase font-bold text-slate-700 mb-1">
-                    DNI (Identificador Único) *
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={dni}
-                    onChange={(e) => setDni(e.target.value)}
-                    placeholder="Número de documento sin puntos"
-                    className="w-full rounded-lg border-2 border-slate-900 bg-slate-50 px-3 py-1.5 text-sm font-bold text-slate-950 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-cyan-400 font-mono"
-                  />
-                  {dni && (
-                    <div className="mt-1 rounded border border-slate-300 bg-slate-100 px-2 py-1 font-mono text-[9px] text-slate-700 flex justify-between">
-                      <span className="font-pixel text-[7.5px] text-slate-500 uppercase">HASH OPERADOR:</span>
-                      <span className="font-bold text-cyan-800">{hashDni}</span>
-                    </div>
-                  )}
+                {/* DNI Y ESCUELA EN LA MISMA FILA */}
+                <div className="grid grid-cols-2 gap-2">
+                  <div>
+                    <label className="block font-pixel text-[7.5px] uppercase font-bold text-slate-700 mb-0.5">
+                      DNI *
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={dni}
+                      onChange={(e) => setDni(e.target.value)}
+                      placeholder="Sin puntos"
+                      className="w-full rounded border-2 border-slate-900 bg-slate-50 px-2 py-1 text-xs font-bold font-mono text-slate-950 focus:bg-white focus:outline-none"
+                    />
+                  </div>
+                  <div>
+                    <label className="block font-pixel text-[7.5px] uppercase font-bold text-slate-700 mb-0.5">
+                      Escuela
+                    </label>
+                    <input
+                      type="text"
+                      value={escuela}
+                      onChange={(e) => setEscuela(e.target.value)}
+                      placeholder="Ej: ET N° 12"
+                      className="w-full rounded border-2 border-slate-900 bg-slate-50 px-2 py-1 text-xs font-bold text-slate-950 focus:bg-white focus:outline-none"
+                    />
+                  </div>
                 </div>
 
-                {/* CONTRASEÑAS */}
-                <div className="grid grid-cols-2 gap-2.5">
+                {/* CLAVES */}
+                <div className="grid grid-cols-2 gap-2">
                   <div>
-                    <label className="block font-pixel text-[8.5px] uppercase font-bold text-slate-700 mb-1">
-                      Crear Contraseña *
+                    <label className="block font-pixel text-[7.5px] uppercase font-bold text-slate-700 mb-0.5">
+                      Contraseña *
                     </label>
                     <input
                       type="password"
                       required
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      placeholder="Mínimo 4 caracteres"
-                      className="w-full rounded-lg border-2 border-slate-900 bg-slate-50 px-3 py-1.5 text-sm font-bold text-slate-950 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-cyan-400"
+                      placeholder="Mín. 4 caracteres"
+                      className="w-full rounded border-2 border-slate-900 bg-slate-50 px-2 py-1 text-xs font-bold text-slate-950 focus:bg-white focus:outline-none"
                     />
                   </div>
                   <div>
-                    <label className="block font-pixel text-[8.5px] uppercase font-bold text-slate-700 mb-1">
+                    <label className="block font-pixel text-[7.5px] uppercase font-bold text-slate-700 mb-0.5">
                       Confirmar Clave *
                     </label>
                     <input
@@ -472,44 +480,30 @@ export default function PortadaBienvenida({ datosIniciales, onComenzar }) {
                       required
                       value={passwordConfirm}
                       onChange={(e) => setPasswordConfirm(e.target.value)}
-                      placeholder="Repetila acá"
-                      className="w-full rounded-lg border-2 border-slate-900 bg-slate-50 px-3 py-1.5 text-sm font-bold text-slate-950 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-cyan-400"
+                      placeholder="Repetir"
+                      className="w-full rounded border-2 border-slate-900 bg-slate-50 px-2 py-1 text-xs font-bold text-slate-950 focus:bg-white focus:outline-none"
                     />
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-2.5">
-                  <div>
-                    <label className="block font-pixel text-[8.5px] uppercase font-bold text-slate-700 mb-1">
-                      Escuela / Colegio
-                    </label>
-                    <input
-                      type="text"
-                      value={escuela}
-                      onChange={(e) => setEscuela(e.target.value)}
-                      placeholder="Ej: Técnica N° 12"
-                      className="w-full rounded-lg border-2 border-slate-900 bg-slate-50 px-3 py-1.5 text-sm font-bold text-slate-950 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-cyan-400"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block font-pixel text-[8.5px] uppercase font-bold text-slate-700 mb-1">
-                      Curso / Grupo
-                    </label>
-                    <input
-                      type="text"
-                      value={grupo}
-                      onChange={(e) => setGrupo(e.target.value)}
-                      placeholder="Ej: 4° 2da - Grupo A"
-                      className="w-full rounded-lg border-2 border-slate-900 bg-slate-50 px-3 py-1.5 text-sm font-bold text-slate-950 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-cyan-400"
-                    />
-                  </div>
+                {/* CURSO / GRUPO */}
+                <div>
+                  <label className="block font-pixel text-[7.5px] uppercase font-bold text-slate-700 mb-0.5">
+                    Año / División / Grupo
+                  </label>
+                  <input
+                    type="text"
+                    value={grupo}
+                    onChange={(e) => setGrupo(e.target.value)}
+                    placeholder="Ej: 4° 2da - Grupo B"
+                    className="w-full rounded border-2 border-slate-900 bg-slate-50 px-2 py-1 text-xs font-bold text-slate-950 focus:bg-white focus:outline-none"
+                  />
                 </div>
 
                 <button
                   type="submit"
                   disabled={cargando}
-                  className="mt-2 w-full rounded-xl border-2 border-slate-900 bg-emerald-400 hover:bg-emerald-300 py-3 px-4 font-pixel text-[10px] uppercase font-black text-slate-950 shadow-[4px_4px_0_#0f172a] transition-all hover:translate-x-0.5 active:translate-y-0.5"
+                  className="w-full rounded-lg border-2 border-slate-900 bg-emerald-400 hover:bg-emerald-300 py-1.5 px-3 font-pixel text-[8.5px] uppercase font-black text-slate-950 shadow-[2px_2px_0_#0f172a] transition-all active:translate-y-0.5"
                 >
                   {cargando ? 'REGISTRANDO...' : 'REGISTRARME Y EMPEZAR →'}
                 </button>
@@ -518,33 +512,28 @@ export default function PortadaBienvenida({ datosIniciales, onComenzar }) {
 
             {/* VISTA 3: IMPORTAR RESPALDO */}
             {pestana === 'importar' && (
-              <form onSubmit={handleImportarSubmit} className="space-y-3">
+              <form onSubmit={handleImportarSubmit} className="space-y-2">
                 <div>
-                  <h3 className="text-lg font-black text-slate-950">
-                    Restaurar avance guardado
+                  <h3 className="text-xs sm:text-sm font-black text-slate-950">
+                    Restaurar avance
                   </h3>
-                  <p className="text-xs text-slate-600 font-medium">
-                    Pegá tu código de respaldo generado en otra netbook para continuar donde quedaste.
+                  <p className="text-[10px] text-slate-600 font-medium">
+                    Pegá tu código de respaldo de otra netbook.
                   </p>
                 </div>
 
-                <div>
-                  <label className="block font-pixel text-[8.5px] uppercase font-bold text-slate-700 mb-1">
-                    Código de respaldo JSON
-                  </label>
-                  <textarea
-                    required
-                    rows={4}
-                    value={archivoTexto}
-                    onChange={(e) => setArchivoTexto(e.target.value)}
-                    placeholder='Pegá aquí tu archivo de respaldo ({"version": "1.0", ...})'
-                    className="w-full rounded-lg border-2 border-slate-900 bg-slate-50 p-2 text-xs font-mono font-bold text-slate-950 focus:bg-white focus:outline-none"
-                  />
-                </div>
+                <textarea
+                  required
+                  rows={3}
+                  value={archivoTexto}
+                  onChange={(e) => setArchivoTexto(e.target.value)}
+                  placeholder='Pegá aquí tu JSON de respaldo...'
+                  className="w-full rounded border-2 border-slate-900 bg-slate-50 p-1.5 text-[11px] font-mono font-bold text-slate-950 focus:bg-white focus:outline-none"
+                />
 
                 <button
                   type="submit"
-                  className="w-full rounded-xl border-2 border-slate-900 bg-cyan-400 hover:bg-cyan-300 py-2.5 px-4 font-pixel text-[10px] uppercase font-black text-slate-950 shadow-[3px_3px_0_#0f172a]"
+                  className="w-full rounded-lg border-2 border-slate-900 bg-cyan-400 hover:bg-cyan-300 py-1.5 px-3 font-pixel text-[8.5px] uppercase font-black text-slate-950 shadow-[2px_2px_0_#0f172a]"
                 >
                   RESTAURAR Y CONTINUAR →
                 </button>
@@ -552,22 +541,22 @@ export default function PortadaBienvenida({ datosIniciales, onComenzar }) {
             )}
           </div>
 
-          {/* ACCESO INVITADO / DOCENTE */}
-          <div className="mt-4 pt-3 border-t border-slate-200">
+          {/* ACCESO INVITADO / DOCENTE (COMPACTO AL PIE) */}
+          <div className="mt-2 pt-2 border-t border-slate-200 shrink-0">
             <button
               type="button"
               onClick={handleAccesoInvitado}
-              className="w-full rounded-xl border-2 border-slate-900 bg-amber-100 hover:bg-amber-200 py-2 px-3 font-pixel text-[8.5px] uppercase font-black text-slate-950 shadow-[2px_2px_0_#0f172a] transition-all flex items-center justify-center gap-2"
+              className="w-full rounded border-2 border-slate-900 bg-amber-100 hover:bg-amber-200 py-1 px-2 font-pixel text-[7.5px] uppercase font-black text-slate-950 shadow-[2px_2px_0_#0f172a] transition-all flex items-center justify-center gap-1.5"
             >
               <span>👁️</span>
-              <span>MODO INVITADO (REVISIÓN RÁPIDA SIN REGISTRO)</span>
+              <span>MODO INVITADO (ENTRAR SIN REGISTRARSE)</span>
             </button>
           </div>
         </div>
       </main>
 
-      {/* FOOTER */}
-      <footer className="relative z-10 mx-auto w-full max-w-5xl border-t border-cyan-500/20 pt-3 text-center font-pixel text-[8px] text-cyan-300/70 uppercase">
+      {/* FOOTER COMPACTO (1 LÍNEA) */}
+      <footer className="relative z-10 mx-auto w-full max-w-5xl border-t border-cyan-500/20 pt-1 shrink-0 text-center font-pixel text-[7.5px] text-cyan-300/60 uppercase">
         MODO EDUCACIÓN · PLATAFORMA DE APRENDIZAJE ABIERTA EN BLOCKCHAIN
       </footer>
     </div>
